@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeffrey.whatsapp.mapper.WhatsappUserMapper">
+    <insert id="addUser">
+        insert into whatsapp_user (phone, phone_hash )
+        values (#{user.phone}, #{user.phoneHash})
+    </insert>
+    <select id="getUserById" resultType="com.jeffrey.whatsapp.entity.WhatsappUser">
+        select * from whatsapp_user where id = #{id}
+    </select>
+    <select id="getUserByPhone" resultType="com.jeffrey.whatsapp.entity.WhatsappUser">
+        select * from whatsapp_user where phone = #{phone}
+    </select>
+</mapper>
