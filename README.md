@@ -11,6 +11,7 @@
 - Spring MVC
 - Spring Security
 - WebSocket
+- Zookeeper
 - Kafka
 
 ## Rate Limit
