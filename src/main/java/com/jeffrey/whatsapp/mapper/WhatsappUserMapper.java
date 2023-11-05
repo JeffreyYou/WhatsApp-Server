@@ -10,4 +10,6 @@ public interface WhatsappUserMapper {
    public WhatsappUser getUserByPhone(@Param("phone") String phone);
 
    public void addUser(@Param("user") WhatsappUser user);
+
+   public String getPhoneByUserId(@Param("id") Long id);
 }

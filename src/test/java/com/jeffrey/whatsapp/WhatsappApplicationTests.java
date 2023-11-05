@@ -2,7 +2,8 @@ package com.jeffrey.whatsapp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jeffrey.whatsapp.service.GreenApi;
+import com.jeffrey.whatsapp.utils.GreenApiUtils;
+import com.jeffrey.whatsapp.utils.KafkaUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,12 +22,13 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.net.URI;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 class WhatsappApplicationTests {
    @Autowired
-   GreenApi greenApi;
+   GreenApiUtils greenApiUtils;
+   @Autowired
+   KafkaUtils kafkaUtils;
 
    @Test
    void contextLoads() {
@@ -90,7 +92,7 @@ class WhatsappApplicationTests {
 
    @Test
    void testClearQueue() throws JsonProcessingException {
-      greenApi.clearQueue();
+      greenApiUtils.clearQueue();
    }
 
    @Test
@@ -98,9 +100,11 @@ class WhatsappApplicationTests {
 
       WebSocketClient webSocketClient = new StandardWebSocketClient();
       WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
+
       WebSocketSession session = webSocketClient.doHandshake(
-            new MyHandler(), headers,
-            URI.create("ws://192.168.1.73:8000/ws/a032446986074dd7f9d86bd1d982ac0d443991db?api_key=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&llm_model=gpt-3.5-turbo-16k")).get();
+               new MyHandler(), headers,
+               URI.create("ws://192.168.1.73:8080/ws/a032446986074dd7f9d86bd1d982ac0d443991db?api_key=&llm_model=gpt-3.5-turbo-16k")).get();
+
 
       session.sendMessage(new TextMessage("Terminal"));
       session.sendMessage(new TextMessage("1"));
@@ -113,6 +117,11 @@ class WhatsappApplicationTests {
       public void handleTextMessage(WebSocketSession session, TextMessage message) {
          System.out.println("Received message: " + message.getPayload());
       }
+   }
+
+   @Test
+   public void testKafka() {
+      kafkaUtils.sendMessage("TestMessage", 1, "Jeffrey", "Hello World");
    }
 
 }

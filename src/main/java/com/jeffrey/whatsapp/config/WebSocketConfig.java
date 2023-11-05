@@ -1,24 +1,24 @@
 package com.jeffrey.whatsapp.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
-@EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-   @Override
-   public void registerStompEndpoints(StompEndpointRegistry registry) {
-      registry.addEndpoint("/my-websocket-endpoint")
-            .setAllowedOrigins("*") // Optionally, you can specify allowed origins
-            .withSockJS(); // Optional, for SockJS fallback
+public class WebSocketConfig {
+   @Bean
+   public WebSocketClient webSocketClient() {
+      return new StandardWebSocketClient();
    }
 
-   @Override
-   public void configureMessageBroker(MessageBrokerRegistry registry) {
-      registry.enableSimpleBroker("/topic");  // Enables a simple in-memory broker
-      registry.setApplicationDestinationPrefixes("/app");
+   @Bean
+   public ConcurrentHashMap<String, WebSocketSession> concurrentHashMap() {
+      return new ConcurrentHashMap<>();
    }
+
+
 }

@@ -11,4 +11,8 @@
     <select id="getUserByPhone" resultType="com.jeffrey.whatsapp.entity.WhatsappUser">
         select * from whatsapp_user where phone = #{phone}
     </select>
+    <select id="getPhoneByUserId" resultType="java.lang.String">
+        select phone from whatsapp_user where id = #{id}
+    </select>
+
 </mapper>
