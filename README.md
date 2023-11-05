@@ -22,3 +22,4 @@ The throughput of 3 partition kafka cluster will be  3 * 1000 *150 / 20 = 22500 
 ## Services
 ![img.png](imgs/service1.png)
 ![img.png](imgs/service2.png)
+![img.png](imgs/service3.png)
